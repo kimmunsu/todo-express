@@ -11,11 +11,21 @@ html
       .navbar.navbar-default
         .container
         .navbar-header.pull-right
-          form#loginForm(class="form-inline", action="/login", method='post')
-            div.form-group
-              input(type='text', name='nickname', placeholder='닉네임')
-              button(type='submit', class='btn btn-default') 로그인
-      block content
+          if(logined)
+            form#logoutForm(class="form-inline", action="/logout", method='post')
+              div.form-group
+                input(type='hidden', value=locals._csrf, name='_csrf')
+                span #{name}
+                button(type='submit', class='btn btn-default') 로그아웃
+          else
+            form#loginForm(class="form-inline", action="/login", method='post')
+              div.form-group
+                input(type='hidden', value=locals._csrf, name='_csrf')
+                input(type='text', name='nickname', placeholder='닉네임')
+                button(type='submit', class='btn btn-default') 로그인
+      
+      if(logined)
+        block content
   script(src='/javascripts/jquery.js', type="text/javascript")
   script(src='/javascripts/bootstrap.js', type="text/javascript")
   script(src='/javascripts/main.js', type="text/javascript")

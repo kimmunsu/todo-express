@@ -16,6 +16,25 @@ var favicon = require('serve-favicon'),
   csrf = require('csurf'),
   errorHandler = require('errorhandler');
 
+// var RedisStore = require('connect-redis')(session),
+//   redis = require('redis'),
+//   redisClient = redis.createClient();
+
+
+// redisClient.keys('*', function (err, keys) {
+//   if (err) return console.log(err);
+
+//   for(var i = 0, len = keys.length; i < len; i++) {
+//     if((/^sess/).test(keys[i])){
+//       redisClient.get(keys[i], function(err, reply) {
+//         reply = JSON.parse(reply);
+//         names.push(reply.name);
+//         console.log('///////// '+reply.name);
+//       });
+//     }
+//   }
+// });
+
 app.use(function(req, res, next) {
   req.db = {};
   req.db.tasks = db.collection('tasks');
@@ -58,6 +77,17 @@ app.param('task_id', function(req, res, next, taskId) {
 });
 
 app.get('/', routes.index);
+app.post('/login', routes.login);
+app.post('/logout', routes.logout);
+
+app.use(function(req, res, next) {
+  if(req.session.name) {
+    next();
+  }else {
+    res.redirect('/');
+  }
+});
+
 app.get('/tasks', tasks.list);
 app.post('/tasks', tasks.markAllCompleted)
 app.post('/tasks', tasks.add);
