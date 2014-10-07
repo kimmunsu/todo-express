@@ -14,6 +14,11 @@ $(document).ready(function() {
     $alert.show();
   });
 
+  
+  //$('#loginForm').submit(function(event) {
+  //alert("login form!!!!!!");
+  //});
+  
   $('#addTaskForm').submit(function(event) {
     $target = $(event.target);
 

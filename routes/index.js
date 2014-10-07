@@ -4,7 +4,8 @@ exports.index = function(req, res, next){
 		console.log('success login : ' + req.session.name);
 	    res.render('index', {
 	      title: 'Todo List',
-	      logined: true });
+	      logined: true,
+		  name: req.session.name});
 
 	} else {
 		console.log('success logout : ' + req.session.name);
